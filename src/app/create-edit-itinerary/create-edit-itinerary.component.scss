@@ -1,0 +1,33 @@
+.itinerary-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .form-container {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  mat-form-field {
+    width: 100%;
+  }
+  
+  button {
+    margin: 10px 0;
+  }
+  
+  mat-card {
+    margin: 10px 0;
+  }
+  

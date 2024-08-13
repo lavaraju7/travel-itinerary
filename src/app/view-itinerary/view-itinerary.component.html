@@ -1,0 +1,49 @@
+<div class="details-container">
+    <mat-toolbar>
+      <button mat-icon-button>
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <span>Itinerary Details</span>
+      <span class="spacer"></span>
+      <button mat-icon-button>
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button mat-icon-button>
+        <mat-icon>share</mat-icon>
+      </button>
+    </mat-toolbar>
+    <div class="details-content">
+      <h2>itinerary.title </h2>
+      <p>itinerary.dates</p>
+      <h3>Destinations</h3>
+      <!-- loop -->
+      <div>
+        <mat-card>
+          <mat-card-title>destination.location </mat-card-title>
+          <mat-card-subtitle>destination.datetime</mat-card-subtitle>
+          <mat-card-actions>
+            <button mat-button>View on Map</button>
+          </mat-card-actions>
+        </mat-card>
+      </div>
+      <h3>Activities</h3>
+      <!-- loop -->
+      <div>
+        <mat-card>
+          <mat-card-content>
+            <p>activity.description  -  activity.time </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+      <h3>Expenses</h3>
+      <!-- loop -->
+      <div>
+        <mat-card>
+          <mat-card-content>
+            <p> expense.amount  -  expense.category </p>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </div>
+  
