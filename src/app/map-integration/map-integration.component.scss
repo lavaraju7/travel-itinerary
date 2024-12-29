@@ -1,0 +1,17 @@
+.map-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .map {
+    flex: 1;
+    padding: 20px;
+    background-color: #f0f0f0;
+  }
+  

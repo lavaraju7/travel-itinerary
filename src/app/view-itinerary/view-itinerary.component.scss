@@ -1,0 +1,30 @@
+.itinerary-container {
+  padding: 16px;
+}
+
+.details-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.section-title {
+  margin: 16px 0;
+  font-weight: bold;
+}
+
+.destination-card,
+.overview-card,
+.expenses-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.expenses-table {
+  width: 100%;
+}

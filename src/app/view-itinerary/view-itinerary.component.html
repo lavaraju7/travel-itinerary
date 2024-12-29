@@ -1,0 +1,77 @@
+<div class="itinerary-container">
+  <mat-toolbar color="primary">
+    <!-- Back Button -->
+    <button mat-icon-button (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+    <mat-icon>travel_explore</mat-icon>
+    <span>Itinerary Details</span>
+    <span class="mat-spacer"></span>
+  </mat-toolbar>
+
+  <div class="details-container" *ngIf="itinerary">
+    <!-- Itinerary Overview Section -->
+    <mat-card class="overview-card">
+      <mat-card-header>
+        <mat-card-title>{{ itinerary?.title }}</mat-card-title>
+        <mat-card-subtitle>
+          {{ itinerary?.trip_start_date | date }} - {{ itinerary?.trip_end_date | date }}
+        </mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <p><strong>Total Destinations:</strong> {{ itinerary?.destinations?.length || 0 }}</p>
+        <p><strong>Total Expenses:</strong> ₹{{getExpenses(itinerary)}}</p>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Destinations Section -->
+    <h3 class="section-title">Destinations</h3>
+    <div *ngIf="itinerary?.destinations?.length > 0 else noDestinations">
+      <div class="grid-container">
+        <mat-card *ngFor="let destination of itinerary?.destinations" class="destination-card">
+          <mat-card-header>
+            <mat-card-title>{{ destination.location }}</mat-card-title>
+            <mat-card-subtitle>
+              {{ destination.date_time | date }} at {{ destination.time }}
+            </mat-card-subtitle>
+          </mat-card-header>
+          <mat-card-content>
+            <p><strong>Transportation:</strong> {{ destination.transportation_type }}</p>
+            <h4>Activities</h4>
+            <ul *ngIf="destination.activities?.length; else noActivities">
+              <li *ngFor="let activity of destination.activities">
+                <strong>{{ activity.activity_type }}:</strong> {{ activity.description }}
+                ({{ activity.time }} hours)
+              </li>
+            </ul>
+            <ng-template #noActivities>
+              <p>No activities listed.</p>
+            </ng-template>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+    <ng-template #noDestinations>
+      <p>No destinations available.</p>
+    </ng-template>
+
+    <!-- Expenses Section -->
+    <h3 class="section-title">Expenses</h3>
+    <mat-card class="expenses-card">
+      <table mat-table [dataSource]="itinerary?.expenses?.length ? itinerary.expenses : []" class="expenses-table">
+        <ng-container matColumnDef="category">
+          <th mat-header-cell *matHeaderCellDef>Category</th>
+          <td mat-cell *matCellDef="let expense">{{ expense.category }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="amount">
+          <th mat-header-cell *matHeaderCellDef>Amount</th>
+          <td mat-cell *matCellDef="let expense">₹{{ expense.amount }}</td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="['category', 'amount']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['category', 'amount'];"></tr>
+      </table>
+    </mat-card>
+  </div>
+</div>

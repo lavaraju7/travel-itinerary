@@ -1,0 +1,33 @@
+.dashboard-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .dashboard-content {
+    padding: 20px;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  button {
+    margin-bottom: 10px;
+  }
+  
+  .itineraries {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  
+  mat-card {
+    width: 300px;
+  }
+  

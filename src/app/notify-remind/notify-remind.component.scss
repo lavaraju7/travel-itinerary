@@ -1,0 +1,27 @@
+.notifications-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  mat-toolbar {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .reminders, .notifications {
+    padding: 20px;
+  }
+  
+  .spacer {
+    flex: 1;
+  }
+  
+  mat-card {
+    margin: 10px 0;
+  }
+  
+  button {
+    margin-top: 10px;
+  }
+  
