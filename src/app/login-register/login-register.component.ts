@@ -4,17 +4,18 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { FormBuilder, FormGroup, Validators,ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-login-register',
   standalone: true,
-  imports: [MatCardModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatButtonModule],
+  imports: [MatCardModule,MatFormFieldModule,ReactiveFormsModule,MatInputModule,MatButtonModule,RouterModule],
   templateUrl: './login-register.component.html',
   styleUrl: './login-register.component.scss'
 })
 export class LoginRegisterComponent implements OnInit, OnDestroy{
   loginForm!:FormGroup
-  constructor(private _fb:FormBuilder){
+  constructor(private _fb:FormBuilder,public _route: Router,){
 
   }
 
@@ -34,6 +35,12 @@ export class LoginRegisterComponent implements OnInit, OnDestroy{
         password:['',[Validators.required]]
       }
     )
+  }
+
+  openSignupPage(){
+    console.log('open page called')
+    let navigateTo = '/signup';
+    this._route.navigate([navigateTo]);
   }
   
 }

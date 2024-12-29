@@ -13,11 +13,10 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
 import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
-    {path:'**',redirectTo:'user-profile'},
     {path:'login',component:LoginRegisterComponent},
     {path:'dashboard',component:HomeDashboardComponent},
     {path:'update-itinerary',component:CreateEditItineraryComponent},
-    {path:'view-itinerary',component:ViewItineraryComponent},
+    {path:'view-itinerary/:id',component:ViewItineraryComponent},
     {path:'collaborations',component:CollaborativePlanningComponent},
     {path:'expense-track',component:ExpenseTrackingComponent},
     {path:'notifications',component:NotifyRemindComponent},
@@ -25,5 +24,6 @@ export const routes: Routes = [
     {path:'feedback',component:FeedbackComponent},
     {path:'settings',component:SettingsComponent},
     {path:'user-profile',component:UserProfileComponent},
-    {path:'signup',component:SignupComponent}
+    {path:'signup',component:SignupComponent},
+    {path:'**',redirectTo:'login',pathMatch:'full'},
 ];

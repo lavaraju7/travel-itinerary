@@ -1,33 +1,196 @@
+// General container styling
 .itinerary-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+// Form container styling
+.form-container {
+  padding: 30px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+// Section titles
+h3.section-title {
+  font-size: 24px;
+  font-weight: 600;
+  color: #3f51b5;
+  margin-bottom: 20px;
+}
+
+h4.subsection-title {
+  font-size: 20px;
+  font-weight: 500;
+  color: #3f51b5;
+  margin-bottom: 15px;
+}
+
+// Card list for destinations and activities
+.card-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+// Styling for individual cards
+.mat-card {
+  padding: 20px;
+  background-color: #fafafa;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  &:hover {
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.2);
+    background-color: #ffffff;
   }
-  
-  mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .form-container {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .spacer {
-    flex: 1;
-  }
-  
-  mat-form-field {
+}
+
+// Grid container for inputs with equal spacing
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+  margin-bottom: 20px;
+  .mat-form-field {
     width: 100%;
   }
-  
-  button {
-    margin: 10px 0;
+}
+
+// Styling for input fields
+.mat-form-field {
+  .mat-label {
+    font-weight: 500;
+    color: #555;
   }
-  
-  mat-card {
-    margin: 10px 0;
+  .mat-input-element {
+    font-size: 16px;
+    padding: 12px 14px;
   }
-  
+  .mat-datepicker-toggle {
+    color: #3f51b5;
+  }
+  .mat-form-field-appearance-fill .mat-form-field-flex {
+    background-color: #f4f6f9;
+    border-radius: 5px;
+    box-shadow: inset 0 1px 4px rgba(0, 0, 0, 0.1);
+  }
+  &:focus-within {
+    .mat-form-field-appearance-fill .mat-form-field-flex {
+      box-shadow: inset 0 0 8px rgba(63, 81, 181, 0.3);
+    }
+  }
+}
+
+// Button styling (raised buttons and icons)
+button.mat-raised-button {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  background-color: #3f51b5;
+  color: #ffffff;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #303f9f;
+  }
+}
+
+button.mat-icon-button {
+  padding: 10px;
+  border-radius: 50%;
+  background-color: transparent;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+}
+
+// Add Destination button with the same color scheme as the main buttons
+button.add-destination {
+  font-size: 16px;
+  padding: 12px 20px;
+  border-radius: 5px;
+  background-color: #3f51b5;
+  color: #ffffff;
+  box-shadow: none;
+  transition: background-color 0.3s ease;
+  &:hover {
+    background-color: #303f9f;
+  }
+}
+
+// Delete button in card actions - red color
+.mat-card-actions button {
+  background-color: transparent;
+  color: #f44336;  // Red color for delete button
+  font-size: 14px;
+  &:hover {
+    background-color: rgba(244, 67, 54, 0.1);  // Light red hover effect
+  }
+}
+
+// Submit button styling
+.submit-btn {
+  margin-top: 20px;
+  font-size: 18px;
+  padding: 14px 25px;
+  border-radius: 5px;
+  background-color: #3f51b5;
+  color: white;
+  width: 100%;
+  &:hover {
+    background-color: #303f9f;
+  }
+}
+
+// Card action styling for delete icon
+.mat-card-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+// Adjustments for form controls in the activities section
+.card-list .activity-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.mat-card-content {
+  padding: 20px;
+}
+
+// Responsive design for smaller screens
+@media (max-width: 768px) {
+  .grid-container {
+    grid-template-columns: 1fr;
+  }
+
+  .itinerary-container {
+    padding: 15px;
+  }
+
+  .form-container {
+    padding: 20px;
+  }
+
+  .submit-btn {
+    font-size: 16px;
+    padding: 12px 20px;
+  }
+
+  h3.section-title, h4.subsection-title {
+    font-size: 20px;
+  }
+
+  .card-list .activity-form {
+    grid-template-columns: 1fr;
+  }
+}

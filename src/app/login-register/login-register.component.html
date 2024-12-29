@@ -12,8 +12,8 @@
           <input matInput name="password" type="password" required formControlName="password">
         </mat-form-field>
           <button mat-raised-button color="primary">Login</button>
-          <button mat-raised-button color="accent">Register</button>
-      </form>
+        </form>
+        <button mat-raised-button color="accent" (click)="openSignupPage()">Register</button>
       <button mat-button>Login with Google</button>
       <button mat-button>Login with Facebook</button>
     </mat-card-content>

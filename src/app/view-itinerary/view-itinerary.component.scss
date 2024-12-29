@@ -1,27 +1,30 @@
+.itinerary-container {
+  padding: 16px;
+}
+
 .details-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
-  mat-toolbar {
-    display: flex;
-    justify-content: space-between;
-  }
-  
-  .details-content {
-    padding: 20px;
-  }
-  
-  .spacer {
-    flex: 1;
-  }
-  
-  mat-card {
-    margin: 10px 0;
-  }
-  
-  button {
-    margin-top: 10px;
-  }
-  
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.section-title {
+  margin: 16px 0;
+  font-weight: bold;
+}
+
+.destination-card,
+.overview-card,
+.expenses-card {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.expenses-table {
+  width: 100%;
+}
