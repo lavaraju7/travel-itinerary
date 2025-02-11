@@ -24,13 +24,14 @@ export class ViewItineraryComponent {
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id');
     if (id) {
-      this.getItineraryDetails(id);
+      this.getItineraryDetails(+id);
     }
   }
 
-  getItineraryDetails(id: string): void {
+  getItineraryDetails(id: number): void {
     this.http.get(`http://localhost:3000/api/v1/itinerary/${id}`).subscribe({
       next: (response: any) => {
+        console.log(response)
         if (response.success) {
           this.itinerary = response.data;
         }

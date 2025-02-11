@@ -1,24 +1,42 @@
 <div class="profile-container">
-    <mat-toolbar>
+  <mat-card class="profile-card">
+    <mat-toolbar color="primary" class="profile-toolbar">
       <button mat-icon-button>
         <mat-icon>arrow_back</mat-icon>
       </button>
-      <span>User Profile</span>
+      <span class="profile-title">User Profile</span>
     </mat-toolbar>
-    <div class="profile-content">
-      <mat-form-field>
-        <mat-label>Username</mat-label>
-        <input matInput name="username" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Email</mat-label>
-        <input matInput name="email" required>
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Password</mat-label>
-        <input matInput name="password" type="password" required>
-      </mat-form-field>
-      <button mat-raised-button color="primary">Update Profile</button>
+    <div class="profile-image-container">
+      <img class="profile-image" [src]="userForm.get('profile_picture')?.value || 'assets/default-avatar.png'"
+        alt="Profile Image">
+      <input type="file" hidden #fileInput (change)="onImageChange($event)">
+      <button mat-stroked-button class="change-image-button" color="primary" (click)="fileInput.click()">Change
+        Image</button>
     </div>
-  </div>
-  
+    <div class="profile-content">
+      <form [formGroup]="userForm" (ngSubmit)="updateUser()">
+        <mat-form-field appearance="outline" class="profile-input">
+          <mat-label>Username</mat-label>
+          <input matInput name="username" required formControlName="username">
+          <mat-error *ngIf="userForm.get('username')?.hasError('required')">
+            Username is required.
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="profile-input">
+          <mat-label>Email</mat-label>
+          <input matInput name="email" type="email" formControlName="email">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="profile-input">
+          <mat-label>Password</mat-label>
+          <input matInput name="password" type="password" required formControlName="password">
+          <mat-error *ngIf="userForm.get('password')?.hasError('required')">
+            Password is required.
+          </mat-error>
+        </mat-form-field>
+        <div class="profile-actions">
+          <button mat-raised-button color="primary" [disabled]="userForm.invalid">Update Profile</button>
+        </div>
+      </form>
+    </div>
+  </mat-card>
+</div>

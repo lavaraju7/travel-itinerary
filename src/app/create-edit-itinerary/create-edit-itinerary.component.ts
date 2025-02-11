@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-create-edit-itinerary',
@@ -21,11 +22,16 @@ import { HttpClient } from '@angular/common/http';
 export class CreateEditItineraryComponent implements OnInit {
   @ViewChildren('picker') destinationDatePickers!: any;
   itineraryForm!: FormGroup
-  itineraryId!: number
-  constructor(private _fb: FormBuilder, private http: HttpClient) {
+  itineraryId!: number | null
+  updateData: any
+  constructor(private _fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute) {
 
   }
   ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.itineraryId = Number(params.get('id')) ?? null; // Get the 'id' parameter
+      console.log('Itinerary ID:', this.itineraryId); // Debugging log
+    });
     this.itineraryForm = this._fb.group(
       {
         title: ['', [Validators.required]],
@@ -34,6 +40,9 @@ export class CreateEditItineraryComponent implements OnInit {
         destinations: this._fb.array([]),
       }
     )
+    if (this.itineraryId) {
+      this.getItineraryDataForUpdate()
+    }
   }
   // Getter for activities FormArray
   get activities() {
@@ -83,15 +92,65 @@ export class CreateEditItineraryComponent implements OnInit {
   }
 
   onSubmit() {
-    this.http.post('http://localhost:3000/api/v1/itinerary',this.itineraryForm.value).subscribe({
-      next:(response)=>{
+    this.http.post('http://localhost:3000/api/v1/itinerary', this.itineraryForm.value).subscribe({
+      next: (response) => {
         console.log(response)
-      },error(err) {
-        
-      },complete() {
-        
+      }, error(err) {
+
+      }, complete() {
+
       },
     })
+  }
+
+  onBack(): void {
+    window.history.back();
+  }
+
+  getItineraryDataForUpdate() {
+    //* replace with API calls
+    this.updateData = {
+      title: 'Tirupathi',
+      trip_start_date: '2024-09-09',
+      trip_end_date: '2024-09-10',
+      destinations: [{
+        location: 'Tirumala',
+        transportation_type: 'Bus',
+        date_time: '2024-09-09',
+        time: '6:00',
+        activities: [
+          {
+            description: 'trekking to top',
+            activity_type: 'Trekking',
+            time: 7,
+          }
+        ]
+      }, {
+        location: 'Tirumala',
+        transportation_type: 'Bus',
+        date_time: '2024-09-09',
+        time: '6:00',
+        activities: [
+          {
+            description: 'trekking to top',
+            activity_type: 'Trekking',
+            time: 7,
+          }
+        ]
+      }],
+    }
+    this.patchDataForEdit()
+  }
+  patchDataForEdit() {
+    let index = 0
+    for (const destination of this.updateData.destinations) {
+      this.addDestination()
+      for (const activity of destination.activities) {
+        this.addActivity(index)
+      }
+      index += 1
+    }
+    this.itineraryForm.patchValue(this.updateData)
   }
 
 }

@@ -1,7 +1,7 @@
 <div class="itinerary-container">
   <mat-toolbar>
     <!-- Back button with an action -->
-    <button mat-icon-button>
+    <button mat-icon-button (click)="onBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
 
@@ -47,23 +47,23 @@
           <mat-card class="destination-card">
             <mat-card-content>
               <div class="grid-container">
-              <mat-form-field appearance="fill" class="half-width">
-                <mat-label>Location</mat-label>
-                <input matInput name="location" required formControlName="location" />
-              </mat-form-field>
+                <mat-form-field appearance="fill" class="half-width">
+                  <mat-label>Location</mat-label>
+                  <input matInput name="location" required formControlName="location" />
+                </mat-form-field>
 
-              <mat-form-field appearance="fill" class="half-width">
-                <mat-label>Transportation Type</mat-label>
-                <input matInput name="transportation_type" required formControlName="transportation_type" />
-              </mat-form-field>
+                <mat-form-field appearance="fill" class="half-width">
+                  <mat-label>Transportation Type</mat-label>
+                  <input matInput name="transportation_type" required formControlName="transportation_type" />
+                </mat-form-field>
               </div>
 
               <div class="grid-container">
                 <mat-form-field appearance="fill" class="half-width">
                   <mat-label>Date</mat-label>
-                  <input matInput [matDatepicker]="destinationDatePickers[i]" formControlName="date_time" required />
-                  <mat-datepicker-toggle matSuffix [for]="destinationDatePickers[i]"></mat-datepicker-toggle>
-                  <mat-datepicker #destinationDatePickers[i]></mat-datepicker>
+                  <input matInput [matDatepicker]="destinationDatePickers" formControlName="date_time" required />
+                  <mat-datepicker-toggle matSuffix [for]="destinationDatePickers"></mat-datepicker-toggle>
+                  <mat-datepicker #destinationDatePickers></mat-datepicker>
                 </mat-form-field>
 
                 <mat-form-field appearance="fill" class="half-width">

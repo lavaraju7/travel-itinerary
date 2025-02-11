@@ -1,33 +1,74 @@
 .dashboard-container {
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-  }
-  
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+
   mat-toolbar {
     display: flex;
-    justify-content: space-between;
+    align-items: center;
+
+    .toolbar-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
   }
-  
+
   .dashboard-content {
-    padding: 20px;
-  }
-  
-  .spacer {
     flex: 1;
+    padding: 1rem;
+
+    .action-buttons {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 1.5rem;
+
+      .action-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1rem;
+        font-weight: bold;
+      }
+    }
+
+    .section-title {
+      margin: 1rem 0;
+      font-size: 1.25rem;
+      color: #555;
+    }
+
+    .itineraries-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+
+      .itinerary-card {
+        transition: box-shadow 0.3s ease-in-out;
+
+        &:hover {
+          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        }
+
+        mat-card-title {
+          font-size: 1.25rem;
+          font-weight: bold;
+        }
+
+        mat-card-subtitle {
+          color: #888;
+        }
+
+        mat-card-actions {
+          display: flex;
+          justify-content: space-between;
+
+          button {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+          }
+        }
+      }
+    }
   }
-  
-  button {
-    margin-bottom: 10px;
-  }
-  
-  .itineraries {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
-  
-  mat-card {
-    width: 300px;
-  }
-  
+}
