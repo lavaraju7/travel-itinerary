@@ -9,148 +9,245 @@ import { MatInputModule } from '@angular/material/input';
 import { CommonModule } from '@angular/common';
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core';
-import { HttpClient } from '@angular/common/http';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ItineraryService } from '../../services/itinerary.service';
+import { Itinerary, Destination, Activity } from '../models/itinerary.model';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-create-edit-itinerary',
   standalone: true,
-  imports: [MatIconModule, MatCardModule, MatFormFieldModule, MatToolbarModule, MatButtonModule, ReactiveFormsModule, MatInputModule, CommonModule, MatDatepickerModule, MatNativeDateModule],
+  imports: [
+    MatIconModule,
+    MatCardModule,
+    MatFormFieldModule,
+    MatToolbarModule,
+    MatButtonModule,
+    ReactiveFormsModule,
+    MatInputModule,
+    CommonModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSnackBarModule
+  ],
   templateUrl: './create-edit-itinerary.component.html',
   styleUrl: './create-edit-itinerary.component.scss'
 })
 export class CreateEditItineraryComponent implements OnInit {
   @ViewChildren('picker') destinationDatePickers!: any;
-  itineraryForm!: FormGroup
-  itineraryId!: number | null
-  updateData: any
-  constructor(private _fb: FormBuilder, private http: HttpClient, private route: ActivatedRoute) {
+  itineraryForm!: FormGroup;
+  itineraryId!: number | null;
+  isLoading = false;
 
-  }
+  constructor(
+    private _fb: FormBuilder,
+    private itineraryService: ItineraryService,
+    private route: ActivatedRoute,
+    private router: Router,
+    private snackBar: MatSnackBar
+  ) { }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.itineraryId = Number(params.get('id')) ?? null; // Get the 'id' parameter
-      console.log('Itinerary ID:', this.itineraryId); // Debugging log
+      this.itineraryId = Number(params.get('id')) ?? null;
     });
-    this.itineraryForm = this._fb.group(
-      {
-        title: ['', [Validators.required]],
-        trip_start_date: ['', [Validators.required]],
-        trip_end_date: ['', [Validators.required]],
-        destinations: this._fb.array([]),
-      }
-    )
+
+    this.initForm();
+
     if (this.itineraryId) {
-      this.getItineraryDataForUpdate()
+      this.getItineraryDataForUpdate();
     }
   }
-  // Getter for activities FormArray
-  get activities() {
-    return this.itineraryForm.get('activities') as FormArray;
-  }
 
-  removeDestination(index: number): void {
-    this.destinations.removeAt(index);
-  }
-
-  removeActivity(destinationIndex: number, activityIndex: number) {
-    // Get the destination form array at the provided destination index
-    const destinationFormArray = this.getActivities(destinationIndex);
-
-    // Remove the activity form group at the provided activity index
-    destinationFormArray.removeAt(activityIndex);
+  private initForm(): void {
+    this.itineraryForm = this._fb.group({
+      title: ['', [Validators.required]],
+      trip_start_date: ['', [Validators.required]],
+      trip_end_date: ['', [Validators.required]],
+      destinations: this._fb.array([]),
+      total_budget: [0],
+      status: ['draft']
+    });
   }
 
   get destinations() {
-    return (this.itineraryForm.get('destinations') as FormArray);
+    return this.itineraryForm.get('destinations') as FormArray;
+  }
+
+  removeDestination(index: number): void {
+    if (this.itineraryId) {
+      const destinationId = this.destinations.at(index).get('id')?.value;
+      if (destinationId) {
+        this.itineraryService.deleteDestination(this.itineraryId, destinationId)
+          .subscribe({
+            next: () => {
+              this.destinations.removeAt(index);
+              this.showSnackBar('Destination removed successfully');
+            },
+            error: (error) => {
+              this.showSnackBar('Error removing destination', 'error');
+            }
+          });
+      }
+    } else {
+      this.destinations.removeAt(index);
+    }
+  }
+
+  getActivities(destinationIndex: number) {
+    return this.destinations.at(destinationIndex).get('activities') as FormArray;
+  }
+
+  removeActivity(destinationIndex: number, activityIndex: number) {
+    if (this.itineraryId) {
+      const destinationId = this.destinations.at(destinationIndex).get('id')?.value;
+      const activityId = this.getActivities(destinationIndex).at(activityIndex).get('id')?.value;
+
+      if (destinationId && activityId) {
+        this.itineraryService.deleteActivity(this.itineraryId, destinationId, activityId)
+          .subscribe({
+            next: () => {
+              this.getActivities(destinationIndex).removeAt(activityIndex);
+              this.showSnackBar('Activity removed successfully');
+            },
+            error: (error) => {
+              this.showSnackBar('Error removing activity', 'error');
+            }
+          });
+      }
+    } else {
+      this.getActivities(destinationIndex).removeAt(activityIndex);
+    }
   }
 
   addDestination() {
     const destinationForm = this._fb.group({
+      id: [null],
       location: ['', Validators.required],
       transportation_type: ['', Validators.required],
       date_time: ['', Validators.required],
       time: ['', Validators.required],
-      activities: this._fb.array([])  // Add activities array to each destination
+      activities: this._fb.array([]),
+      accommodation: this._fb.group({
+        name: [''],
+        check_in: [''],
+        check_out: [''],
+        cost: [0]
+      })
     });
 
     this.destinations.push(destinationForm);
   }
 
-  getActivities(destinationIndex: number) {
-    return (this.destinations.at(destinationIndex).get('activities') as FormArray);
-  }
-
   addActivity(destinationIndex: number) {
     const activityForm = this._fb.group({
+      id: [null],
       description: ['', Validators.required],
       activity_type: ['', Validators.required],
       time: ['', Validators.required],
+      duration: [0],
+      cost: [0],
+      notes: ['']
     });
 
     this.getActivities(destinationIndex).push(activityForm);
   }
 
   onSubmit() {
-    this.http.post('http://localhost:3000/api/v1/itinerary', this.itineraryForm.value).subscribe({
-      next: (response) => {
-        console.log(response)
-      }, error(err) {
+    if (this.itineraryForm.valid) {
+      this.isLoading = true;
+      const formData = this.itineraryForm.value;
 
-      }, complete() {
-
-      },
-    })
+      if (this.itineraryId) {
+        // Update existing itinerary
+        this.itineraryService.updateItinerary(this.itineraryId.toString(), formData)
+          .subscribe({
+            next: (response) => {
+              this.showSnackBar('Itinerary updated successfully');
+              this.router.navigate(['/view-itinerary', this.itineraryId]);
+            },
+            error: (error) => {
+              this.showSnackBar('Error updating itinerary', 'error');
+            },
+            complete: () => {
+              this.isLoading = false;
+            }
+          });
+      } else {
+        // Create new itinerary
+        this.itineraryService.createItinerary(formData)
+          .subscribe({
+            next: (response) => {
+              this.showSnackBar('Itinerary created successfully');
+              this.router.navigate(['/view-itinerary', response.id]);
+            },
+            error: (error) => {
+              this.showSnackBar('Error creating itinerary', 'error');
+            },
+            complete: () => {
+              this.isLoading = false;
+            }
+          });
+      }
+    }
   }
 
   onBack(): void {
     window.history.back();
   }
 
-  getItineraryDataForUpdate() {
-    //* replace with API calls
-    this.updateData = {
-      title: 'Tirupathi',
-      trip_start_date: '2024-09-09',
-      trip_end_date: '2024-09-10',
-      destinations: [{
-        location: 'Tirumala',
-        transportation_type: 'Bus',
-        date_time: '2024-09-09',
-        time: '6:00',
-        activities: [
-          {
-            description: 'trekking to top',
-            activity_type: 'Trekking',
-            time: 7,
+  private getItineraryDataForUpdate() {
+    if (this.itineraryId) {
+      this.isLoading = true;
+      this.itineraryService.getItineraryById(this.itineraryId)
+        .subscribe({
+          next: (itinerary: any) => {
+            this.patchDataForEdit(itinerary);
+            this.isLoading = false;
+          },
+          error: (error) => {
+            this.showSnackBar('Error loading itinerary', 'error');
+            this.isLoading = false;
           }
-        ]
-      }, {
-        location: 'Tirumala',
-        transportation_type: 'Bus',
-        date_time: '2024-09-09',
-        time: '6:00',
-        activities: [
-          {
-            description: 'trekking to top',
-            activity_type: 'Trekking',
-            time: 7,
-          }
-        ]
-      }],
+        });
     }
-    this.patchDataForEdit()
-  }
-  patchDataForEdit() {
-    let index = 0
-    for (const destination of this.updateData.destinations) {
-      this.addDestination()
-      for (const activity of destination.activities) {
-        this.addActivity(index)
-      }
-      index += 1
-    }
-    this.itineraryForm.patchValue(this.updateData)
   }
 
+  private patchDataForEdit(itinerary: Itinerary) {
+    // Clear existing destinations
+    while (this.destinations.length) {
+      this.destinations.removeAt(0);
+    }
+
+    // Add destinations and their activities
+    itinerary.destinations.forEach((destination: any) => {
+      this.addDestination();
+      const lastIndex = this.destinations.length - 1;
+      const destinationForm = this.destinations.at(lastIndex);
+
+      destination.activities.forEach((activity: any) => {
+        this.addActivity(lastIndex);
+      });
+
+      destinationForm.patchValue(destination);
+    });
+
+    // Patch the main form
+    this.itineraryForm.patchValue({
+      title: itinerary.title,
+      trip_start_date: itinerary.trip_start_date,
+      trip_end_date: itinerary.trip_end_date,
+      total_budget: itinerary.total_budget,
+      status: itinerary.status
+    });
+  }
+
+  private showSnackBar(message: string, type: 'success' | 'error' = 'success'): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+      panelClass: type === 'error' ? ['error-snackbar'] : ['success-snackbar']
+    });
+  }
 }

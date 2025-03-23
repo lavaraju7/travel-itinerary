@@ -1,0 +1,112 @@
+<div class="page-container">
+    <!-- Profile Header -->
+    <mat-card class="profile-header">
+        <div class="profile-cover"></div>
+        <div class="profile-info">
+            <div class="profile-avatar">
+                <img [src]="profile.avatar" [alt]="profile.username">
+                <button mat-icon-button class="edit-avatar" (click)="onEditAvatar()">
+                    <mat-icon>camera_alt</mat-icon>
+                </button>
+            </div>
+            <div class="profile-details">
+                <h1>{{ profile.fullName }}</h1>
+                <p class="username">{{ profile.username }}</p>
+                <p class="bio">{{ profile.bio }}</p>
+                <div class="profile-meta">
+                    <span>
+                        <mat-icon>location_on</mat-icon>
+                        {{ profile.location }}
+                    </span>
+                    <span>
+                        <mat-icon>calendar_today</mat-icon>
+                        Joined {{ profile.joinDate | date:'MMMM yyyy' }}
+                    </span>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <span class="stat-value">{{ profile.stats.trips }}</span>
+                        <span class="stat-label">Trips</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">{{ profile.stats.followers }}</span>
+                        <span class="stat-label">Followers</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-value">{{ profile.stats.following }}</span>
+                        <span class="stat-label">Following</span>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button mat-raised-button color="primary" (click)="onEditProfile()">
+                        <mat-icon>edit</mat-icon>
+                        Edit Profile
+                    </button>
+                    <button mat-stroked-button>
+                        <mat-icon>share</mat-icon>
+                        Share Profile
+                    </button>
+                </div>
+            </div>
+        </div>
+    </mat-card>
+
+    <!-- Profile Content -->
+    <mat-card class="profile-content">
+        <mat-tab-group>
+            <!-- About Tab -->
+            <mat-tab label="About">
+                <div class="tab-content">
+                    <div class="interests-section">
+                        <h2>Interests</h2>
+                        <div class="interests-list">
+                            <mat-chip *ngFor="let interest of profile.interests" selected>
+                                {{ interest }}
+                            </mat-chip>
+                        </div>
+                    </div>
+                    <mat-divider></mat-divider>
+                    <div class="bio-section">
+                        <h2>About Me</h2>
+                        <p>{{ profile.bio }}</p>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Trips Tab -->
+            <mat-tab label="Trips">
+                <div class="tab-content">
+                    <div class="trips-grid">
+                        <mat-card *ngFor="let trip of profile.recentTrips" class="trip-card">
+                            <img [src]="trip.thumbnail" [alt]="trip.title">
+                            <mat-card-content>
+                                <h3>{{ trip.title }}</h3>
+                                <p>{{ trip.destination }}</p>
+                                <div class="trip-meta">
+                                    <span>
+                                        <mat-icon>calendar_today</mat-icon>
+                                        {{ trip.startDate | date:'MMM d' }} - {{ trip.endDate | date:'MMM d, yyyy' }}
+                                    </span>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Activity Tab -->
+            <mat-tab label="Activity">
+                <div class="tab-content">
+                    <mat-list>
+                        <mat-list-item *ngFor="let activity of recentActivity">
+                            <mat-icon matListItemIcon>{{ activity.icon }}</mat-icon>
+                            <div matListItemTitle>{{ activity.title }}</div>
+                            <div matListItemLine>{{ activity.description }}</div>
+                            <div matListItemMeta>{{ activity.timestamp | date:'MMM d, h:mm a' }}</div>
+                        </mat-list-item>
+                    </mat-list>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-card>
+</div>

@@ -1,0 +1,137 @@
+// Colors
+$color-primary: #1976d2;
+$color-secondary: #2196f3;
+$color-accent: #ff4081;
+$color-warn: #f44336;
+$color-success: #4caf50;
+$color-background: #f5f7fa;
+$color-background-light: #ffffff;
+$color-text: #2c3e50;
+$color-text-light: #7f8c8d;
+$color-text-secondary: #95a5a6;
+$color-border: #e0e0e0;
+$color-divider: #ecf0f1;
+
+// Typography
+$font-family: 'Roboto', sans-serif;
+$font-size-xs: 0.75rem;
+$font-size-sm: 0.875rem;
+$font-size-base: 1rem;
+$font-size-lg: 1.125rem;
+$font-size-xl: 1.25rem;
+
+@mixin heading-1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    color: $color-text;
+}
+
+@mixin heading-2 {
+    font-size: 2rem;
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 1.25rem;
+    color: $color-text;
+}
+
+@mixin heading-3 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    line-height: 1.4;
+    margin-bottom: 1rem;
+    color: $color-text;
+}
+
+@mixin heading-4 {
+    font-size: 1.5rem;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 0.75rem;
+    color: $color-text;
+}
+
+@mixin body-text {
+    font-size: $font-size-base;
+    line-height: 1.6;
+    color: $color-text;
+    margin: 0;
+}
+
+@mixin caption-text {
+    font-size: $font-size-sm;
+    line-height: 1.4;
+    color: $color-text-secondary;
+    margin: 0;
+}
+
+// Spacing
+$spacing-xs: 0.25rem;
+$spacing-sm: 0.5rem;
+$spacing-md: 1rem;
+$spacing-lg: 1.5rem;
+$spacing-xl: 2rem;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Shadows
+$shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.05);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.07);
+$shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.1);
+
+// Border radius
+$border-radius-sm: 4px;
+$border-radius-md: 8px;
+$border-radius-lg: 12px;
+$border-radius-xl: 16px;
+$border-radius-circle: 50%;
+
+// Z-index
+$z-index-dropdown: 1000;
+$z-index-sticky: 1020;
+$z-index-fixed: 1030;
+$z-index-modal-backdrop: 1040;
+$z-index-modal: 1050;
+$z-index-popover: 1060;
+$z-index-tooltip: 1070;
+
+// Transitions
+$transition-fast: 150ms ease;
+$transition-normal: 250ms ease;
+$transition-slow: 350ms ease;
+
+// Card styles
+@mixin card {
+    background: $color-background-light;
+    border-radius: $border-radius-md;
+    box-shadow: $shadow-sm;
+    transition: box-shadow $transition-normal;
+    
+    &:hover {
+        box-shadow: $shadow-md;
+    }
+}
+
+// Button styles
+@mixin button-base {
+    border-radius: $border-radius-sm;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    transition: all $transition-normal;
+}
+
+// Form field styles
+@mixin form-field {
+    width: 100%;
+    margin-bottom: $spacing-md;
+    
+    .mat-mdc-form-field {
+        width: 100%;
+    }
+} 

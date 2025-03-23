@@ -1,0 +1,179 @@
+<div class="page-container">
+    <div class="dashboard-header">
+        <h1 class="section-title">Welcome Back!</h1>
+        <button mat-raised-button color="primary" (click)="openCreateItineraryDialog()">
+            <mat-icon>add</mat-icon>
+            Create New Itinerary
+        </button>
+    </div>
+
+    <div class="dashboard-grid">
+        <!-- Recent Itineraries -->
+        <mat-card class="dashboard-card">
+            <mat-card-header>
+                <mat-card-title>Recent Itineraries</mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="recentMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #recentMenu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>refresh</mat-icon>
+                        <span>Refresh</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>view_list</mat-icon>
+                        <span>View All</span>
+                    </button>
+                </mat-menu>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="itinerary-list">
+                    <div *ngFor="let itinerary of recentItineraries" class="itinerary-item">
+                        <div class="itinerary-info">
+                            <h3>{{ itinerary.title }}</h3>
+                            <p>{{ itinerary.description }}</p>
+                            <div class="itinerary-meta">
+                                <span>
+                                    <mat-icon>calendar_today</mat-icon>
+                                    {{ itinerary.startDate | date }} - {{ itinerary.endDate | date }}
+                                </span>
+                                <span>
+                                    <mat-icon>location_on</mat-icon>
+                                    {{ itinerary.destinations }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="itinerary-actions">
+                            <button mat-icon-button matTooltip="View Details">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button matTooltip="Edit">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Upcoming Trips -->
+        <mat-card class="dashboard-card">
+            <mat-card-header>
+                <mat-card-title>Upcoming Trips</mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="upcomingMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #upcomingMenu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>refresh</mat-icon>
+                        <span>Refresh</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>view_list</mat-icon>
+                        <span>View All</span>
+                    </button>
+                </mat-menu>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="trip-list">
+                    <div *ngFor="let trip of upcomingTrips" class="trip-item">
+                        <div class="trip-info">
+                            <h3>{{ trip.title }}</h3>
+                            <p>{{ trip.destinations }}</p>
+                            <div class="trip-meta">
+                                <span>
+                                    <mat-icon>calendar_today</mat-icon>
+                                    {{ trip.startDate | date }}
+                                </span>
+                                <span>
+                                    <mat-icon>group</mat-icon>
+                                    {{ trip.participants }} participants
+                                </span>
+                            </div>
+                        </div>
+                        <div class="trip-actions">
+                            <button mat-icon-button matTooltip="View Details">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button matTooltip="Share">
+                                <mat-icon>share</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Recent Expenses -->
+        <mat-card class="dashboard-card">
+            <mat-card-header>
+                <mat-card-title>Recent Expenses</mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="expenseMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #expenseMenu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>refresh</mat-icon>
+                        <span>Refresh</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>view_list</mat-icon>
+                        <span>View All</span>
+                    </button>
+                </mat-menu>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="expense-list">
+                    <div *ngFor="let expense of expenses" class="expense-item">
+                        <div class="expense-info">
+                            <h3>{{ expense.title }}</h3>
+                            <p>{{ expense.notes }}</p>
+                            <div class="expense-meta">
+                                <span>
+                                    <mat-icon>attach_money</mat-icon>
+                                    {{ expense.amount | currency }}
+                                </span>
+                                <span>
+                                    <mat-icon>calendar_today</mat-icon>
+                                    {{ expense.date | date }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="expense-actions">
+                            <button mat-icon-button matTooltip="View Details">
+                                <mat-icon>visibility</mat-icon>
+                            </button>
+                            <button mat-icon-button matTooltip="Edit">
+                                <mat-icon>edit</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </mat-card-content>
+        </mat-card>
+
+        <!-- Map View -->
+        <mat-card class="dashboard-card map-card">
+            <mat-card-header>
+                <mat-card-title>Your Travel Map</mat-card-title>
+                <button mat-icon-button [matMenuTriggerFor]="mapMenu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #mapMenu="matMenu">
+                    <button mat-menu-item>
+                        <mat-icon>refresh</mat-icon>
+                        <span>Refresh</span>
+                    </button>
+                    <button mat-menu-item>
+                        <mat-icon>fullscreen</mat-icon>
+                        <span>Full Screen</span>
+                    </button>
+                </mat-menu>
+            </mat-card-header>
+            <mat-card-content>
+                <app-map [markers]="mapMarkers" [center]="mapCenter" [zoom]="mapZoom">
+                </app-map>
+            </mat-card-content>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,14 @@
+<div class="map-container">
+    <div #map class="map"></div>
+    <div class="map-controls">
+        <button mat-icon-button (click)="zoomIn()" matTooltip="Zoom In">
+            <mat-icon>add</mat-icon>
+        </button>
+        <button mat-icon-button (click)="zoomOut()" matTooltip="Zoom Out">
+            <mat-icon>remove</mat-icon>
+        </button>
+        <button mat-icon-button (click)="resetView()" matTooltip="Reset View">
+            <mat-icon>center_focus_strong</mat-icon>
+        </button>
+    </div>
+</div>

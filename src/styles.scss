@@ -1,5 +1,39 @@
 /* You can add global styles to this file, and also import other style files */
 @import '@angular/material/prebuilt-themes/indigo-pink.css';
+@import 'styles/variables';
+@import 'styles/_variables.scss';
+@import 'styles/shared.scss';
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: $font-family;
+  background-color: $color-background;
+  color: $color-text;
+}
+
+/* Snackbar styles */
+.success-snackbar {
+  background: $color-success;
+  color: white;
+}
+
+.error-snackbar {
+  background: $color-warn;
+  color: white;
+}
+
+/* Material overrides */
+.mat-mdc-card {
+  box-shadow: $shadow-sm !important;
+  border-radius: $border-radius-md !important;
+}
+
+.mat-mdc-raised-button {
+  border-radius: $border-radius-sm !important;
+}
+
+.mat-mdc-form-field {
+  width: 100%;
+}
