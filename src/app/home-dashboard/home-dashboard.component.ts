@@ -6,11 +6,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Router, RouterModule } from '@angular/router';
+import { HeaderComponent } from '../common/header/header.component';
 
 @Component({
   selector: 'app-home-dashboard',
   standalone: true,
-  imports: [MatCardModule, MatIconModule, MatToolbarModule, MatButtonModule, RouterModule, CommonModule],
+  imports: [MatCardModule, MatIconModule, MatToolbarModule, MatButtonModule, RouterModule, CommonModule, HeaderComponent],
   templateUrl: './home-dashboard.component.html',
   styleUrl: './home-dashboard.component.scss'
 })
