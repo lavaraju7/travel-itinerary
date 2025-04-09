@@ -1,25 +1,125 @@
 .auth-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  padding: 20px;
+}
+
+.auth-card {
+  max-width: 400px;
+  width: 100%;
+  padding: 24px;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+
+  mat-card-header {
+    text-align: center;
+    margin-bottom: 24px;
+
+    mat-card-title {
+      font-size: 24px;
+      font-weight: 500;
+      color: #333;
+      margin-bottom: 8px;
+    }
+
+    mat-card-subtitle {
+      font-size: 14px;
+      color: #666;
+    }
   }
-  
-  mat-card {
-    padding: 20px;
-    width: 400px;
-  }
-  
+
   mat-form-field {
     width: 100%;
+    margin-bottom: 16px;
   }
-  
-  button {
+
+  button[type="submit"] {
     width: 100%;
-    margin-top: 10px;
+    padding: 12px;
+    margin: 16px 0;
+    font-size: 16px;
+
+    mat-icon {
+      margin-right: 8px;
+    }
   }
-  
-  .example-button-row {
-    display: table-cell;
-    max-width: 600px;
+
+  .auth-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+
+    button {
+      width: 100%;
+      justify-content: center;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
   }
+
+  .social-login {
+    text-align: center;
+    margin-top: 24px;
+
+    p {
+      color: #666;
+      margin-bottom: 16px;
+      position: relative;
+
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 45%;
+        height: 1px;
+        background-color: #ddd;
+      }
+
+      &::before {
+        left: 0;
+      }
+
+      &::after {
+        right: 0;
+      }
+    }
+
+    .social-buttons {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+
+      button {
+        flex: 1;
+        max-width: 150px;
+
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    padding: 16px;
+  }
+
+  .social-buttons {
+    flex-direction: column;
+    align-items: center;
+
+    button {
+      width: 100%;
+      max-width: none;
+    }
+  }
+}

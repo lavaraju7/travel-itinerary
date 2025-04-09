@@ -1,0 +1,28 @@
+<h2 mat-dialog-title>Upload Profile Picture</h2>
+
+<mat-dialog-content>
+    <div class="upload-container">
+        <div class="preview-container">
+            <img *ngIf="previewUrl" [src]="previewUrl" alt="Preview" class="preview-image">
+            <div *ngIf="!previewUrl" class="placeholder">
+                <mat-icon>account_circle</mat-icon>
+                <span>No image selected</span>
+            </div>
+        </div>
+
+        <div class="upload-actions">
+            <input type="file" accept="image/*" (change)="onFileSelected($event)" #fileInput style="display: none">
+            <button mat-raised-button color="primary" (click)="fileInput.click()">
+                <mat-icon>photo_camera</mat-icon>
+                Choose Photo
+            </button>
+        </div>
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button color="primary" (click)="onUpload()" [disabled]="!selectedFile">
+        Upload
+    </button>
+</mat-dialog-actions>

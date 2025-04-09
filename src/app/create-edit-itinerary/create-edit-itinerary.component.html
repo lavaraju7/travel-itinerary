@@ -1,124 +1,165 @@
-<div class="itinerary-container">
-  <mat-toolbar>
-    <!-- Back button with an action -->
-    <button mat-icon-button (click)="onBack()">
-      <mat-icon>arrow_back</mat-icon>
-    </button>
-
-    <!-- Icon before the title (without any actions) -->
-    <mat-icon>travel_explore</mat-icon> <!-- You can choose another icon here -->
-
-    <span>{{ itineraryId ? "Edit" : "Create" }} Itinerary</span>
+<div class="container">
+  <mat-toolbar color="primary">
+    <span>{{ itineraryId ? 'Edit' : 'Create' }} Itinerary</span>
     <span class="spacer"></span>
+    <button mat-button (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+      Back
+    </button>
   </mat-toolbar>
 
-  <div class="form-container">
-    <form [formGroup]="itineraryForm">
-      <!-- Itinerary Title -->
-      <mat-form-field appearance="fill" class="full-width">
-        <mat-label>Itinerary Title</mat-label>
-        <input matInput name="title" required formControlName="title" />
-      </mat-form-field>
+  <form [formGroup]="itineraryForm" (ngSubmit)="onSubmit()" class="form-container">
+    <mat-card class="form-card">
+      <mat-card-content>
+        <div class="form-row">
+          <mat-form-field appearance="outline">
+            <mat-label>Title</mat-label>
+            <input matInput formControlName="title" placeholder="Enter itinerary title">
+          </mat-form-field>
 
-      <!-- Start and End Dates -->
-      <div class="grid-container">
-        <mat-form-field appearance="fill" class="half-width">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startDatePicker" formControlName="trip_start_date" required />
-          <mat-datepicker-toggle matSuffix [for]="startDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #startDatePicker></mat-datepicker>
-        </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput [matDatepicker]="startPicker" formControlName="trip_start_date">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
 
-        <mat-form-field appearance="fill" class="half-width">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="endDatePicker" formControlName="trip_end_date" required />
-          <mat-datepicker-toggle matSuffix [for]="endDatePicker"></mat-datepicker-toggle>
-          <mat-datepicker #endDatePicker></mat-datepicker>
-        </mat-form-field>
-      </div>
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input matInput [matDatepicker]="endPicker" formControlName="trip_end_date">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
 
-      <!-- Destinations Section -->
-      <h3 class="section-title">Destinations</h3>
-      <button mat-raised-button color="primary" (click)="addDestination()">
-        + Add Destination
-      </button>
-      <div formArrayName="destinations" class="card-list">
-        <div *ngFor="let destination of destinations.controls; let i = index" [formGroupName]="i">
-          <mat-card class="destination-card">
-            <mat-card-content>
-              <div class="grid-container">
-                <mat-form-field appearance="fill" class="half-width">
-                  <mat-label>Location</mat-label>
-                  <input matInput name="location" required formControlName="location" />
-                </mat-form-field>
+          <mat-form-field appearance="outline">
+            <mat-label>Total Budget</mat-label>
+            <input matInput type="number" formControlName="total_budget" placeholder="Enter total budget">
+            <span matPrefix>$&nbsp;</span>
+          </mat-form-field>
+        </div>
 
-                <mat-form-field appearance="fill" class="half-width">
-                  <mat-label>Transportation Type</mat-label>
-                  <input matInput name="transportation_type" required formControlName="transportation_type" />
-                </mat-form-field>
-              </div>
+        <div formArrayName="destinations" class="destinations-container">
+          <div *ngFor="let destination of destinations.controls; let i=index" [formGroupName]="i"
+            class="destination-card">
+            <mat-card>
+              <mat-card-header>
+                <mat-card-title>Destination {{i + 1}}</mat-card-title>
+                <button mat-icon-button color="warn" (click)="removeDestination(i)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </mat-card-header>
+              <mat-card-content>
+                <div class="destination-form">
+                  <mat-form-field appearance="outline">
+                    <mat-label>Location</mat-label>
+                    <input matInput formControlName="location" placeholder="Enter location">
+                  </mat-form-field>
 
-              <div class="grid-container">
-                <mat-form-field appearance="fill" class="half-width">
-                  <mat-label>Date</mat-label>
-                  <input matInput [matDatepicker]="destinationDatePickers" formControlName="date_time" required />
-                  <mat-datepicker-toggle matSuffix [for]="destinationDatePickers"></mat-datepicker-toggle>
-                  <mat-datepicker #destinationDatePickers></mat-datepicker>
-                </mat-form-field>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Transportation Type</mat-label>
+                    <input matInput formControlName="transportation_type" placeholder="Enter transportation type">
+                  </mat-form-field>
 
-                <mat-form-field appearance="fill" class="half-width">
-                  <mat-label>Time</mat-label>
-                  <input matInput type="time" formControlName="time" required />
-                </mat-form-field>
-              </div>
+                  <mat-form-field appearance="outline">
+                    <mat-label>Date</mat-label>
+                    <input matInput [matDatepicker]="picker" formControlName="date_time">
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                  </mat-form-field>
 
-              <!-- Activities Section -->
-              <h4 class="subsection-title">Activities</h4>
-              <button mat-raised-button color="primary" (click)="addActivity(i)">
-                + Add Activity
-              </button>
-              <div formArrayName="activities" class="card-list">
-                <div *ngFor="let activity of getActivities(i).controls; let j = index" [formGroupName]="j">
-                  <mat-card class="activity-card">
-                    <mat-card-content>
-                      <mat-form-field appearance="fill" class="half-width">
-                        <mat-label>Activity Type</mat-label>
-                        <input matInput name="activity_type" required formControlName="activity_type" />
+                  <mat-form-field appearance="outline">
+                    <mat-label>Time</mat-label>
+                    <input matInput type="time" formControlName="time">
+                  </mat-form-field>
+
+                  <div formGroupName="accommodation" class="accommodation-section">
+                    <h3>Accommodation</h3>
+                    <div class="accommodation-form">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Name</mat-label>
+                        <input matInput formControlName="name" placeholder="Enter accommodation name">
                       </mat-form-field>
 
-                      <mat-form-field appearance="fill" class="half-width">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Check-in</mat-label>
+                        <input matInput type="time" formControlName="check_in">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Check-out</mat-label>
+                        <input matInput type="time" formControlName="check_out">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Cost</mat-label>
+                        <input matInput type="number" formControlName="cost">
+                        <span matPrefix>$&nbsp;</span>
+                      </mat-form-field>
+                    </div>
+                  </div>
+
+                  <div formArrayName="activities" class="activities-container">
+                    <h3>Activities</h3>
+                    <div *ngFor="let activity of getActivities(i).controls; let j=index" [formGroupName]="j"
+                      class="activity-form">
+                      <mat-form-field appearance="outline">
                         <mat-label>Description</mat-label>
-                        <input matInput name="description" required formControlName="description" />
+                        <input matInput formControlName="description" placeholder="Enter activity description">
                       </mat-form-field>
 
-                      <mat-form-field appearance="fill" class="half-width">
-                        <mat-label>No.of Hours</mat-label>
-                        <input matInput type="number" formControlName="time" required />
+                      <mat-form-field appearance="outline">
+                        <mat-label>Activity Type</mat-label>
+                        <input matInput formControlName="activity_type" placeholder="Enter activity type">
                       </mat-form-field>
-                    </mat-card-content>
 
-                    <mat-card-actions>
-                      <button mat-icon-button (click)="removeActivity(i, j)">
+                      <mat-form-field appearance="outline">
+                        <mat-label>Time</mat-label>
+                        <input matInput type="time" formControlName="time">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Duration (hours)</mat-label>
+                        <input matInput type="number" formControlName="duration">
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline">
+                        <mat-label>Cost</mat-label>
+                        <input matInput type="number" formControlName="cost">
+                        <span matPrefix>$&nbsp;</span>
+                      </mat-form-field>
+
+                      <mat-form-field appearance="outline" class="full-width">
+                        <mat-label>Notes</mat-label>
+                        <textarea matInput formControlName="notes" placeholder="Enter any additional notes"></textarea>
+                      </mat-form-field>
+
+                      <button mat-icon-button color="warn" (click)="removeActivity(i, j)">
                         <mat-icon>delete</mat-icon>
                       </button>
-                    </mat-card-actions>
-                  </mat-card>
+                    </div>
+                    <button mat-stroked-button type="button" (click)="addActivity(i)">
+                      <mat-icon>add</mat-icon>
+                      Add Activity
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </mat-card-content>
-
-            <mat-card-actions>
-              <button mat-icon-button (click)="removeDestination(i)">
-                <mat-icon>delete</mat-icon>
-              </button>
-            </mat-card-actions>
-          </mat-card>
+              </mat-card-content>
+            </mat-card>
+          </div>
+          <button mat-stroked-button type="button" (click)="addDestination()">
+            <mat-icon>add</mat-icon>
+            Add Destination
+          </button>
         </div>
-      </div>
 
-      <button mat-raised-button color="primary" type="submit" class="submit-btn" (click)="onSubmit()">
-        {{ itineraryId ? 'Save' : 'Create' }}
-      </button>
-    </form>
-  </div>
+        <div class="form-actions">
+          <button mat-button type="button" (click)="onBack()">Cancel</button>
+          <button mat-raised-button color="primary" type="submit" [disabled]="!itineraryForm.valid || isLoading">
+            <mat-icon>save</mat-icon>
+            {{ itineraryId ? 'Update' : 'Create' }}
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </form>
 </div>
