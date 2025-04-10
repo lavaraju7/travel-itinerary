@@ -25,57 +25,7 @@ import { Observable } from 'rxjs';
         MatBadgeModule,
         MatMenuModule
     ],
-    template: `
-        <!-- <mat-toolbar color="primary">
-            <button mat-icon-button (click)="toggleSidenav()" *ngIf="isAuthenticated$ | async">
-                <mat-icon>menu</mat-icon>
-            </button>
-            <span>Travel Itinerary</span>
-            <span class="toolbar-spacer"></span>
-            <button mat-icon-button [matMenuTriggerFor]="menu" *ngIf="isAuthenticated$ | async">
-                <mat-icon [matBadge]="unreadNotifications" matBadgeColor="warn">notifications</mat-icon>
-            </button>
-            <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                    <mat-icon>notifications</mat-icon>
-                    <span>Notifications</span>
-                </button>
-                <button mat-menu-item>
-                    <mat-icon>settings</mat-icon>
-                    <span>Settings</span>
-                </button>
-                <button mat-menu-item (click)="logout()">
-                    <mat-icon>exit_to_app</mat-icon>
-                    <span>Logout</span>
-                </button>
-            </mat-menu>
-        </mat-toolbar> -->
-
-        <!-- <mat-sidenav-container>
-            <mat-sidenav #sidenav mode="side" [opened]="isAuthenticated$ | async">
-                <mat-nav-list>
-                    <a mat-list-item routerLink="/dashboard" routerLinkActive="active">
-                        <mat-icon matListItemIcon>dashboard</mat-icon>
-                        <span matListItemTitle>Dashboard</span>
-                    </a>
-                    <a mat-list-item routerLink="/profile" routerLinkActive="active">
-                        <mat-icon matListItemIcon>person</mat-icon>
-                        <span matListItemTitle>Profile</span>
-                    </a>
-                    <a mat-list-item routerLink="/settings" routerLinkActive="active">
-                        <mat-icon matListItemIcon>settings</mat-icon>
-                        <span matListItemTitle>Settings</span>
-                    </a>
-                </mat-nav-list>
-            </mat-sidenav>
-
-            <mat-sidenav-content>
-                <div class="content">
-                    <router-outlet></router-outlet>
-                </div>
-            </mat-sidenav-content>
-        </mat-sidenav-container> -->
-    `,
+    templateUrl: `./app.component.html`,
     styles: [`
         .toolbar-spacer {
             flex: 1 1 auto;

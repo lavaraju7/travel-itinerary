@@ -36,8 +36,7 @@
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles/_variables.scss",
-              "src/styles.scss"
+              "src/assets/styles.scss"
             ],
             "scripts": []
           },
@@ -106,8 +105,7 @@
             "styles": [
               "node_modules/leaflet/dist/leaflet.css",
               "@angular/material/prebuilt-themes/indigo-pink.css",
-              "src/styles/_variables.scss",
-              "src/styles.scss"
+              "src/assets/styles.scss"
             ],
             "scripts": []
           }
